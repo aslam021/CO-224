@@ -1,0 +1,90 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x872640 .scope module, "tb_ALU" "tb_ALU" 2 32;
+ .timescale 0 0;
+v0x8a9a70_0 .var "INPUT1", 7 0;
+v0x8a9b10_0 .var "INPUT2", 7 0;
+v0x8a9bc0_0 .net "OUTPUT", 7 0, v0x8a9700_0; 1 drivers
+v0x8a9c70_0 .var "SELECT", 2 0;
+S_0x8722c0 .scope module, "alu_pass" "ALU" 2 42, 2 1, S_0x872640;
+ .timescale 0 0;
+L_0x8a9d50 .functor BUFZ 8, v0x8a9a70_0, C4<00000000>, C4<00000000>, C4<00000000>;
+L_0x8a9e30 .functor BUFZ 8, v0x8a9b10_0, C4<00000000>, C4<00000000>, C4<00000000>;
+v0x871f70_0 .net "INPUT1", 7 0, v0x8a9a70_0; 1 drivers
+v0x8a9660_0 .net "INPUT2", 7 0, v0x8a9b10_0; 1 drivers
+v0x8a9700_0 .var "OUT", 7 0;
+v0x8a97a0_0 .alias "OUTPUT", 7 0, v0x8a9bc0_0;
+v0x8a9850_0 .net "SELECT", 2 0, v0x8a9c70_0; 1 drivers
+v0x8a98f0_0 .net "w1", 0 7, L_0x8a9d50; 1 drivers
+v0x8a99d0_0 .net "w2", 0 7, L_0x8a9e30; 1 drivers
+E_0x8724f0 .event edge, v0x8a9850_0, v0x8a9660_0, v0x871f70_0;
+    .scope S_0x8722c0;
+T_0 ;
+    %wait E_0x8724f0;
+    %load/v 8, v0x8a9850_0, 3;
+    %cmpi/u 8, 0, 3;
+    %jmp/1 T_0.0, 6;
+    %cmpi/u 8, 1, 3;
+    %jmp/1 T_0.1, 6;
+    %cmpi/u 8, 2, 3;
+    %jmp/1 T_0.2, 6;
+    %cmpi/u 8, 3, 3;
+    %jmp/1 T_0.3, 6;
+    %jmp T_0.4;
+T_0.0 ;
+    %load/v 8, v0x8a98f0_0, 8;
+    %set/v v0x8a9700_0, 8, 8;
+    %jmp T_0.4;
+T_0.1 ;
+    %load/v 8, v0x8a98f0_0, 8;
+    %load/v 16, v0x8a99d0_0, 8;
+    %add 8, 16, 8;
+    %set/v v0x8a9700_0, 8, 8;
+    %jmp T_0.4;
+T_0.2 ;
+    %load/v 8, v0x8a98f0_0, 8;
+    %load/v 16, v0x8a99d0_0, 8;
+    %and 8, 16, 8;
+    %set/v v0x8a9700_0, 8, 8;
+    %jmp T_0.4;
+T_0.3 ;
+    %load/v 8, v0x8a98f0_0, 8;
+    %load/v 16, v0x8a99d0_0, 8;
+    %or 8, 16, 8;
+    %set/v v0x8a9700_0, 8, 8;
+    %jmp T_0.4;
+T_0.4 ;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_0x872640;
+T_1 ;
+    %movi 8, 3, 8;
+    %set/v v0x8a9a70_0, 8, 8;
+    %movi 8, 1, 8;
+    %set/v v0x8a9b10_0, 8, 8;
+    %set/v v0x8a9c70_0, 0, 3;
+    %delay 10, 0;
+    %vpi_call 2 47 "$display", "data 1= %b data 2= %b OPCODE=%b result=%b\012", v0x8a9a70_0, v0x8a9b10_0, v0x8a9c70_0, v0x8a9bc0_0;
+    %movi 8, 1, 3;
+    %set/v v0x8a9c70_0, 8, 3;
+    %delay 10, 0;
+    %vpi_call 2 48 "$display", "data 1= %b data 2= %b OPCODE=%b result= %b\012", v0x8a9a70_0, v0x8a9b10_0, v0x8a9c70_0, v0x8a9bc0_0;
+    %movi 8, 2, 3;
+    %set/v v0x8a9c70_0, 8, 3;
+    %delay 10, 0;
+    %vpi_call 2 49 "$display", "data 1= %b data 2= %b OPCODE=%b result= %b\012", v0x8a9a70_0, v0x8a9b10_0, v0x8a9c70_0, v0x8a9bc0_0;
+    %movi 8, 3, 3;
+    %set/v v0x8a9c70_0, 8, 3;
+    %delay 10, 0;
+    %vpi_call 2 50 "$display", "data 1= %b data 2= %b OPCODE=%b result= %b\012", v0x8a9a70_0, v0x8a9b10_0, v0x8a9c70_0, v0x8a9bc0_0;
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "aluself.v";

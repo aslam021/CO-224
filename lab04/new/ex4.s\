@@ -1,0 +1,25 @@
+
+	.global main
+main:
+	@ stack handling, will discuss later
+	@ push (store) lr to the stack
+	sub sp, sp, #4
+	str lr, [sp, #0]
+
+	ldr r0, =getChar
+	sub sp, sp, #1
+	mov r1, sp
+	bl scanf
+
+	ldr r4, [sp, #0]
+
+	add sp, sp, #1
+
+	ldr lr, sp
+	add sp, sp, #4
+	mov pc, lr
+
+	.data	@ data memory
+getChar: .asciz "%c"
+
+

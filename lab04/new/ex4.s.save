@@ -1,0 +1,24 @@
+
+	.global main
+main:
+	@ stack handling, will discuss later
+	@ push (store) lr to the stack
+	sub sp, sp, #4
+	str lr, [sp, #0]
+
+	mov r7, #1  //a counter
+
+loop:
+	ldr r0, =getChar
+	sub sp, sp, #1
+	mov r1, sp
+	bl scanf
+
+	ldrb r4
+
+	ldr lr, [sp, #0]
+	add sp, sp, #4
+	mov pc, 
+	.data	@ data memory
+
+
